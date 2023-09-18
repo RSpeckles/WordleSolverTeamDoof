@@ -63,7 +63,7 @@ class Solver:
                 #     if j not in self.possibleWords[i]:
                 #         self.possibleWords.pop(i)
                 #         continue
-            ahsd = random.randint(0,len(self.possibleWords))
-            self.word = "koala"
+            
+            self.word = self.possibleWords[random.randint(0,len(self.possibleWords))]
             return self.word
                 
