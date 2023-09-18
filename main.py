@@ -23,7 +23,7 @@ try:
     time.sleep(2)
 
     indices = "nnnnn"
-    word = "adieu"
+    word = "arrow"
 
     wordleSolver = solver.Solver()
 
@@ -38,20 +38,6 @@ try:
         present_tiles = driver.find_elements(By.CSS_SELECTOR, ".Tile-module_tile__UWEHN[data-state=present]")
         correct_tiles = driver.find_elements(By.CSS_SELECTOR, ".Tile-module_tile__UWEHN[data-state=correct]")
         cAndp = []
-        #print("Absent Tiles:")
-        for tile in absent_tiles:
-            letter = tile.get_attribute("data-letter")
-            tile_text = tile.text.lower()
-            #print(f"Letter: {letter}, Text: {tile_text}")
-
-            position = word.find(tile_text) + 1
-            #print(f"Position in Word: {position}")
-
-            if position != 0:
-                if tile_text in cAndp:
-                    indices = indices[:position - 1] + "p" + indices[position:]
-                else:
-                    indices = indices[:position - 1] + "n" + indices[position:]
 
         #print("Present Tiles:")
         for tile in present_tiles:
@@ -63,9 +49,9 @@ try:
             #print(f"Position in Word: {position}")
 
             if position != 0:
-                indices = indices[:position - 1] + "p" + indices[position:]
                 cAndp.append(tile_text)
-
+                indices = indices[:position - 1] + "p" + indices[position:]
+                print("INDICES: ", indices)
 
         #print("Correct Tiles:")
         for tile in correct_tiles:
@@ -78,9 +64,30 @@ try:
             #print(f"Position in Word: {position}")
 
             if position != 0:
-                indices = indices[:position - 1] + "c" + indices[position:]
                 cAndp.append(tile_text)
+                indices = indices[:position - 1] + "c" + indices[position:]
+                print("INDICES: ", indices)
 
+        #print("Absent Tiles:")
+        for tile in absent_tiles:
+            letter = tile.get_attribute("data-letter")
+            tile_text = tile.text.lower()
+            #print(f"Letter: {letter}, Text: {tile_text}")
+
+            position = word.find(tile_text) + 1
+            #print(f"Position in Word: {position}")
+            
+            if position != 0:
+                if tile_text in cAndp:
+                    indices = indices[:position - 1] + "p" + indices[position:]
+                    print("INDICES: ", indices)
+                else:
+                    indices = indices[:position - 1] + "n" + indices[position:]
+                    print("tile_text: ", tile_text)
+                    print(cAndp)
+
+       
+        
         print(f"Indices: {indices}")
 
         word = wordleSolver.solve(indices)
